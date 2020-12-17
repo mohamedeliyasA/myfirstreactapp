@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./styles.css";
 
-function App() {
+const emojiDictionary = {
+  "😀": "Happy",
+  "😞": "Sad",
+  "😁": "Beaming Face with Smiling Eyes",
+  "😆": "Grinning Squinting Face",
+  "😅": "Grinning Face with Sweat",
+  "🤣": "Rolling on the Floor Laughing",
+  "😂": "Face with Tears of Joy",
+  "🙂": "Slightly Smiling Face",
+  "🙃": "Upside-Down Face",
+  "😉": "Winking Face"
+};
+
+var emojisWeKnow = Object.keys(emojiDictionary);
+
+export default function App() {
+  const [meaning, setMeaning] = useState("");
+  function inputChangeHandler(event) {
+    var tempmeaning = emojiDictionary[event.target.value];
+
+    if (tempmeaning === undefined) {
+      tempmeaning = "We dont have it";
+    }
+    setMeaning(tempmeaning);
+  }
+
+  function emojiClickHander(emoji) {
+    setMeaning(emojiDictionary[emoji]);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>my First react Program</h1>
+      <input onChange={inputChangeHandler}></input>
+      <div>{meaning}</div>
+      <h3>emojis we know </h3>
+      {emojisWeKnow.map((emoji) => {
+        return (
+          <span
+            onClick={() => emojiClickHander(emoji)}
+            style={{ fontSize: "2rem", padding: "0.5rem", cursor: "pointer" }}
+            key={emoji}
+          >
+            {emoji}
+          </span>
+        );
+      })}
     </div>
   );
 }
-
-export default App;
